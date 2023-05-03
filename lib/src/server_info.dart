@@ -15,7 +15,7 @@ class MinecraftServerInfo {
   /// Sends a ping packet to the specified server and returns information about the server.
   ///
   /// Throws a [ServerTimeoutException] if the server does not respond within the specified [timeout] period.
-  static Future<PongData> get({
+  static Future<ServerModel> get({
     required String host,
     required int port,
     int timeout = 10,
@@ -38,11 +38,11 @@ class MinecraftServerInfo {
     sendSocket.close();
 
     // Parse the raw response into a PongData object
-    return PongData.fromBytes((rawPong)!.data);
+    return ServerModel.fromBytes((rawPong)!.data);
   }
 
   /// get information about the server by url "<host>:<port>".
-  static Future<PongData> getUrl(String url) async {
+  static Future<ServerModel> getUrl(String url) async {
     final data = url.split(':');
     return await get(host: data.first, port: int.tryParse(data.last) ?? 25565);
   }

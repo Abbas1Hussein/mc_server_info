@@ -47,7 +47,7 @@ Sends a ping packet to the specified server and returns information about the se
 Throws a `ServerTimeoutException` if the server does not respond within the specified `timeout` period.
 
 ```dart
-static Future<PongData> get({
+static Future<ServerModel> get({
     required String host,
     required int port,
     Duration timeout = const Duration(seconds: 10),
@@ -59,7 +59,7 @@ static Future<PongData> get({
 Get information about the server by url "<host>:<port>".
 
 ```dart
-static Future<PongData> getUrl(String url)
+static Future<ServerModel> getUrl(String url)
 ```
 
 ## Installation
