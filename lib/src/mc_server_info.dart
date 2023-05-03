@@ -27,12 +27,11 @@ class MinecraftServerInfo {
     sendSocket.send(_buildPingPacket(), await Utils.hostLookup(host, port));
 
     // Wait for a response from the server
-    var rawPong = await (sendSocket
+    final rawPong = await (sendSocket
         .asStream()
         .timeout(Duration(seconds: timeout),
             onTimeout: (_) => throw ServerTimeoutException())
         .first);
-
 
     // Close the UDP socket
     sendSocket.close();
@@ -44,7 +43,10 @@ class MinecraftServerInfo {
   /// get information about the server by url "<host>:<port>".
   static Future<ServerModel> getUrl(String url) async {
     final data = url.split(':');
-    return await get(host: data.first, port: int.tryParse(data.last) ?? 25565);
+    if (data.length == 1) {
+      return await get(host: data.first, port: 19132);
+    }
+    return await get(host: data.first, port: int.parse(data.last));
   }
 
   /// Builds a ping packet to send to the server.

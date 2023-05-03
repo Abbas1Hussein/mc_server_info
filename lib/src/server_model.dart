@@ -51,7 +51,7 @@ class ServerModel {
         gameType: split[8],
       );
     }
-    if (split.length > 10) {
+    if (split.length > 10 && split.length < 13) {
       return ServerModel(
         isOnline: statusServer,
         version: split[4],
@@ -60,6 +60,17 @@ class ServerModel {
         serverId: split[7],
         software: split[8],
         gameType: split[9],
+      );
+    }
+    if (split.length >= 13) {
+      return ServerModel(
+        isOnline: statusServer,
+        version: split[3],
+        players: int.parse(split[4]),
+        maxPlayers: int.parse(split[5]),
+        serverId: split[6],
+        software: split[7],
+        gameType: split[8],
       );
     }
     return ServerModel(isOnline: false);

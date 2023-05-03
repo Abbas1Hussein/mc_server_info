@@ -13,13 +13,23 @@ void main() {
   test(
     'Test on real server list',
     () async {
-      // CosmicPE
       await _getMCServerInfoAndPrint('play.cosmicpe.me:19132');
-      // ECPE
+
       await _getMCServerInfoAndPrint('ecpehub.net:19132');
-      // GrandTheftMCPE
+
       await _getMCServerInfoAndPrint('grandtheft.mcpe.me:19132');
-    },
-    timeout: Timeout(Duration(minutes: 1)),
+
+      await _getMCServerInfoAndPrint('geyser.pixelblockmc.com:19132');
+
+      await _getMCServerInfoAndPrint('bedrock.jartex.fun:19132');
+
+      await _getMCServerInfoAndPrint('lobby.nethergames.org:19132');
+
+      await _getMCServerInfoAndPrint('play.inpvp.net:19132');
+
+      await _getMCServerInfoAndPrint('hub.opblocks.com');
+
+      },
+    timeout: Timeout(Duration(seconds: 30)),
   );
 }
