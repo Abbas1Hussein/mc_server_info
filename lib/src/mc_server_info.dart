@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:udp/udp.dart';
 
-import 'pong_data.dart';
+import 'server_model.dart';
 import 'utils/timeout_exception.dart';
 import 'utils/unconnected_constant.dart';
 import 'utils/utils.dart';

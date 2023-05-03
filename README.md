@@ -18,7 +18,6 @@ void main() async {
     if (serverInfo.isOnline) {
       print('Current players: ${serverInfo.players}');
       print('Max players: ${serverInfo.maxPlayers}');
-      print('MOTD: ${serverInfo.motd}');
       print('gameType: ${serverInfo.gameType}');
       print('ServerId: ${serverInfo.serverId}');
       print('version: ${serverInfo.version}');
@@ -34,7 +33,7 @@ void main() async {
 
 ## Features
 
-- Retrieve information about Minecraft servers, including whether the server is online or offline, the current number of players, the maximum number of players, the MOTD, version, software, serverId, gameType,
+- Retrieve information about Minecraft servers, including whether the server is online or offline, the current number of players, the maximum number of players, the version of server, software, serverId, gameType,
 - Built-in timeout handling in case the server does not respond within the specified period.
 - Lightweight and easy to use.
 
