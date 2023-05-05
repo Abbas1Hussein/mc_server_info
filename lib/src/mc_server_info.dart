@@ -1,10 +1,11 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
 import 'package:udp/udp.dart';
 
 import 'server_model.dart';
-import 'utils/timeout_exception.dart';
+import 'utils/exceptions.dart';
 import 'utils/unconnected_constant.dart';
 import 'utils/utils.dart';
 
@@ -14,39 +15,44 @@ class MinecraftServerInfo {
 
   /// Sends a ping packet to the specified server and returns information about the server.
   ///
-  /// Throws a [ServerTimeoutException] if the server does not respond within the specified [timeout] period.
+  /// Throws a [ServerTimeOutException] if the server does not respond within the specified [timeout] period.
   static Future<ServerModel> get({
     required String host,
     required int port,
-    int timeout = 10,
+    Duration timeout = const Duration(seconds: 5),
   }) async {
-    // Bind a UDP socket to any available endpoint
-    UDP sendSocket = await UDP.bind(Endpoint.any());
+    try {
+      // Bind a UDP socket to any available endpoint
+      UDP? sendSocket = await UDP.bind(Endpoint.any());
 
-    // Send the ping packet to the server
-    sendSocket.send(_buildPingPacket(), await Utils.hostLookup(host, port));
+      // Send the ping packet to the server
+      sendSocket.send(_buildPingPacket(), await Utils.hostLookup(host, port));
 
-    // Wait for a response from the server
-    final rawPong = await (sendSocket
-        .asStream()
-        .timeout(Duration(seconds: timeout),
-            onTimeout: (_) => throw ServerTimeoutException())
-        .first);
-
-    // Close the UDP socket
-    sendSocket.close();
-
-    // Parse the raw response into a PongData object
-    return ServerModel.fromBytes((rawPong)!.data);
+      // Wait for a response from the server
+      final Datagram? rawPong = await sendSocket.asStream().first.timeout(
+        timeout,
+        onTimeout: () => throw ServerTimeOutException(),
+      );
+      // Close the UDP socket
+      sendSocket.close();
+      sendSocket = null;
+      // Parse the raw response into a PongData object
+      return ServerModel.fromBytes((rawPong)!.data);
+    } on SocketException catch(e) {
+      throw HostException();
+    }
   }
 
   /// get information about the server by url "<host>:<port>".
-  static Future<ServerModel> getUrl(String url) async {
+  static Future<ServerModel> getUrl(
+    String url, [
+    Duration timeout = const Duration(seconds: 5),
+  ]) async {
     final data = url.split(':');
-    if (data.length == 1) {
-      return await get(host: data.first, port: 19132);
+    if (data.length == 2) {
+      return await get(host: data.first, port: int.parse(data.last), timeout: timeout);
     }
-    return await get(host: data.first, port: int.parse(data.last));
+    throw Exception('The Port must be input');
   }
 
   /// Builds a ping packet to send to the server.
