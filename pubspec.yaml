@@ -1,7 +1,7 @@
 name: mc_server_info
-description: A starting point for Dart libraries or applications.
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+description: A Dart package for retrieving information about Minecraft servers.
+repository: https://github.com/Abbas1Hussein/mc_server_info
 
 environment:
   sdk: '>=2.19.0 <3.0.0'

@@ -5,13 +5,13 @@ A Dart package for retrieving information about Minecraft servers.
 ## Usage
 
 ```dart
-import 'package:minecraft_server_info/minecraft_server_info.dart';
+import 'package:mc_server_info/mc_server_info.dart';
 
 void main() async {
   try {
     var serverInfo = await MinecraftServerInfo.get(
-      host: 'mc.hypixel.net',
-      port: 25565,
+      host: 'bedrock.jartex.fun',
+      port: 19132,
       timeout: const Duration(seconds: 10),
     );
     print('Server is online: ${serverInfo.isOnline}');
@@ -23,12 +23,15 @@ void main() async {
       print('version: ${serverInfo.version}');
       print('software: ${serverInfo.software}');
     }
-  } on ServerTimeoutException {
-    print('Server did not respond within the specified timeout period.');
+  } on ServerTimeOutException catch (e) {
+    print('Server did not respond within the specified timeout period: $e');
+  } on HostException catch (e) {
+    print('Invalid host: $e');
   } catch (e) {
     print('An error occurred: $e');
   }
 }
+
 ```
 
 ## Features
@@ -43,7 +46,7 @@ void main() async {
 
 Sends a ping packet to the specified server and returns information about the server.
 
-Throws a `ServerTimeoutException` if the server does not respond within the specified `timeout` period.
+Throws a `ServerTimeOutException` if the server does not respond within the specified `timeout` period.
 
 ```dart
 static Future<ServerModel> get({
@@ -63,4 +66,4 @@ static Future<ServerModel> getUrl(String url)
 
 ## Installation
 
-To use this package, add `minecraft_server_info` as a [dependency in your `pubspec.yaml` file](https://flutter.dev/docs/development/packages-and-plugins/using-packages).
+To use this package, add `mc_server_info` as a [dependency in your `pubspec.yaml` file](https://flutter.dev/docs/development/packages-and-plugins/using-packages).

@@ -22,8 +22,6 @@ void main() {
 
       await getMCServerInfoAndPrint('geyser.pixelblockmc.com:19132');
 
-      await getMCServerInfoAndPrint('bedrock.jartex.fun:19132');
-
       await getMCServerInfoAndPrint('lobby.nethergames.org:19132');
 
       await getMCServerInfoAndPrint('play.inpvp.net:19132');
