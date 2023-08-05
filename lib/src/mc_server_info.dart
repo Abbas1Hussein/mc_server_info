@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
+import 'dart:io' hide BytesBuilder;
+import 'dart:typed_data' show BytesBuilder;
 
 import 'package:udp/udp.dart';
 
@@ -30,15 +31,15 @@ class MinecraftServerInfo {
 
       // Wait for a response from the server
       final Datagram? rawPong = await sendSocket.asStream().first.timeout(
-        timeout,
-        onTimeout: () => throw ServerTimeOutException(),
-      );
+            timeout,
+            onTimeout: () => throw ServerTimeOutException(),
+          );
       // Close the UDP socket
       sendSocket.close();
       sendSocket = null;
       // Parse the raw response into a PongData object
       return ServerModel.fromBytes((rawPong)!.data);
-    } on SocketException catch(e) {
+    } on SocketException catch (_) {
       throw HostException();
     }
   }
@@ -50,7 +51,8 @@ class MinecraftServerInfo {
   ]) async {
     final data = url.split(':');
     if (data.length == 2) {
-      return await get(host: data.first, port: int.parse(data.last), timeout: timeout);
+      return await get(
+          host: data.first, port: int.parse(data.last), timeout: timeout);
     }
     throw Exception('The Port must be input');
   }

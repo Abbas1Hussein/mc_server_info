@@ -4,11 +4,11 @@ description: A Dart package for retrieving information about Minecraft servers.
 repository: https://github.com/Abbas1Hussein/mc_server_info
 
 environment:
-  sdk: '>=2.19.0 <3.0.0'
+  sdk: '>=2.19.0 <4.0.0'
 
 dependencies:
   udp: ^5.0.3
 
 dev_dependencies:
-  lints: ^2.0.1
-  test: ^1.24.2
+  lints: ^2.1.1
+  test: ^1.24.5
